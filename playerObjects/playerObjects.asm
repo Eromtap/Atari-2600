@@ -62,12 +62,12 @@ VisibleScanlines:
 
                 ldy #0
 ScoreboardLoop:
-                lda NumberBitmap,Y      ; Draw scoreboard from numberbitmap
+        lda NumberBitmap,Y      ; Draw scoreboard from numberbitmap
         sta PF1
         sta WSYNC
         iny
-                cpy #10
-                bne ScoreboardLoop
+        cpy #10
+        bne ScoreboardLoop
         
         lda #0
         sta PF1                         ; Disable playfield
@@ -122,9 +122,9 @@ Player1Loop:
         jmp StartFrame
         
  
-                org $FFE8
-PlayerBitmap:
-        .byte #%01111110            ;  ######
+                org $FFE8               ; Store bitmap close to the end of the cartridge ROM
+PlayerBitmap:                           ; Smiley face player bitmap
+        .byte #%01111110   ;  ######
         .byte #%11111111   ; ########
         .byte #%10011001   ; #  ##  #
         .byte #%11111111   ; ########
@@ -136,9 +136,9 @@ PlayerBitmap:
         .byte #%01111110   ;  ###### 
 
 
-                org $FFF2
-NumberBitmap:
-        .byte #%00001110            ; ###
+                org $FFF2               ; store this bitmap in the last bit of space before end of cartridge ROM
+NumberBitmap:                           ; Number '2' bitmap
+        .byte #%00001110   ; ###
         .byte #%00001110   ; ###
         .byte #%00000010   ;   #
         .byte #%00000010   ;   #
@@ -151,7 +151,7 @@ NumberBitmap:
 
 
 
-; Complete ROM size
+        ; Complete ROM size
         org $FFFC
         .word Reset
         .word Reset
